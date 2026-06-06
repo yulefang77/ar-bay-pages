@@ -1,0 +1,302 @@
+/* ==========================================
+   1. 全域變數與基礎重設 (Reset)
+   ========================================== */
+:root {
+  --bg: #f8f4ea;
+  --ink: #1f1a17;
+  --muted: #6e6256;
+  --card: #fffdf8;
+  --line: #e7d9c7;
+  --brand: #a1451d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  background:
+    radial-gradient(circle at 90% 15%, #f9d5c0, transparent 40%),
+    radial-gradient(circle at 10% 5%, #f9edc6, transparent 35%),
+    var(--bg);
+  color: var(--ink);
+}
+
+/* ==========================================
+   2. 基礎版面樣式（預設電腦端大螢幕）
+   ========================================== */
+.page {
+  width: min(1080px, 92vw);
+  min-width: 600px;
+  margin: 2rem auto 4rem;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand);
+  font-weight: 700;
+}
+.hero h1 {
+  margin: 0.2rem 0 0;
+  font-size: clamp(1.8rem, 3.4vw, 2.8rem);
+  letter-spacing: 0.02em;
+}
+
+.hero p {
+  color: var(--muted);
+  margin: 0.4rem 0;
+}
+
+.generated {
+  font-size: 0.9rem;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1.1rem 1rem;
+  margin-top: 1.2rem;
+  box-shadow: 0 10px 28px rgba(80, 56, 40, 0.09);
+}
+
+body > main > section > h2 {
+  text-align: center;
+}
+
+.center-content {
+  text-align: center;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+/* 電腦端表格預設樣式 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.center-table {
+  text-align: center;
+}
+
+th, td {
+  text-align: center;
+  padding: 0.65rem 0.6rem;
+  border-bottom: 1px solid var(--line);
+}
+
+th {
+  color: var(--muted);
+  font-weight: 600;
+  background: #fff8f1;
+  position: sticky;
+  top: 0;
+}
+a {
+  color: var(--brand);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================
+   3. 其他元件樣式 (.metric-grid / 列表等)
+   ========================================== */
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.metric-grid article {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.8rem;
+  background: linear-gradient(145deg, #fffdf8, #fff3e8);
+  text-align: center;
+}
+
+.metric-grid h3 {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.metric-grid p {
+  margin: 0.35rem 0 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.table-footnote {
+  margin: 0.7rem 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.quick-notes, .news-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--muted);
+}
+
+body > main > section:nth-child(4) > ul,
+body > main > section:nth-child(5) > ul {
+  text-align: left;
+}
+
+.quick-notes li { margin: 0.35rem 0; }
+.news-list li { margin: 0.55rem 0; }
+.news-list a { overflow-wrap: anywhere; }
+
+.news-meta {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.news-empty {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* ==========================================
+   4. RWD 響應式媒體查詢 (Media Queries)
+   ========================================== */
+
+/* ------------------------------------------
+   【情境 1：iPad / 平板端、手機橫向】寬度 ≤ 960px
+   ------------------------------------------ */
+@media (max-width: 960px) {
+  .page {
+    width: min(1080px, 94vw);
+    margin: 1.5rem auto 3rem;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  /* 稍微縮小表格字體與內距，確保 iPad 直向時完整容納不破版 */
+  th, td {
+    padding: 0.6rem 0.5rem;
+    font-size: 0.92rem;
+  }
+
+  /* 針對寬度較長的第五欄標頭允許其適當換行 */
+  th:nth-child(5), td:nth-child(5) {
+    max-width: 120px;
+    white-space: normal;
+    word-break: break-all;
+  }
+}
+
+/* ------------------------------------------
+   【情境 1.5：手機斷行】寬度 < 768px
+   ------------------------------------------ */
+@media (max-width: 767px) {
+  #stocks-table > thead th {
+    white-space: pre-line;
+    line-height: 1.25;
+  }
+
+  section.card.metrics.center-content > .metric-grid h3 {
+    white-space: pre-line;
+    line-height: 1.25;
+  }
+}
+
+/* ------------------------------------------
+   【情境 2：手機端直向】寬度 ≤ 600px
+   （核心優化：表格神奇轉換為卡片排版）
+   ------------------------------------------ */
+@media (max-width: 600px) {
+  /* 隱藏傳統大螢幕表格標頭 */
+  .center-table thead {
+    display: none;
+  }
+
+  /* 將所有表格元素轉為區塊元素以利重新堆疊 */
+  .center-table, .center-table tbody, .center-table tr, .center-table td {
+    display: block;
+    width: 100%;
+  }
+
+  /* 將每一列 (tr) 獨立包裝成精美卡片 */
+  .center-table tbody tr {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 0.6rem 0.8rem;
+    margin-bottom: 0.8rem;
+    background-color: var(--card);
+    box-shadow: 0 3px 8px rgba(80, 56, 40, 0.03);
+  }
+
+  .center-table tbody tr:last-child {
+    margin-bottom: 0;
+  }
+
+  /* 利用 Flexbox 讓欄位名稱與數據在手機版卡片中置中排列 */
+  .center-table td {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.45rem 0;
+    border-bottom: 1px dashed var(--line);
+    font-size: 0.9rem;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .center-table td:last-child {
+    border-bottom: none;
+  }
+
+  /* 關鍵技術：透過 attr() 自動抓取 HTML 內的 data-label 作為欄位標籤 */
+  .center-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--muted);
+    padding-right: 0;
+    text-align: center;
+  }
+
+  /* 指標網格自動切換為單欄 */
+  .metric-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .hero h1 {
+    font-size: 1.8rem;
+    line-height: 1.2;
+  }
+}
+
+/* ------------------------------------------
+   【極小螢幕手機微調】寬度 ≤ 400px
+   ------------------------------------------ */
+@media (max-width: 400px) {
+  .hero p,
+  .generated,
+  .table-footnote,
+  .news-meta,
+  .quick-notes {
+    font-size: 0.82rem;
+  }
+
+  .hero h1 {
+    font-size: 1.6rem;
+  }
+}
